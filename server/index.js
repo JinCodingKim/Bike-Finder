@@ -34,12 +34,12 @@ passport.serializeUser((user, done) => {
   const { id, displayName, name, picture } = user;
   app
     .get("db")
-    .getUserByAuthId(id)
+    .get_user_by_auth_id(id)
     .then(logged => {
       if (!logged[0]) {
         app
           .get("db")
-          .addUserByAuthId([
+          .add_user_by_auth_id([
             id,
             displayName,
             name.givenName,

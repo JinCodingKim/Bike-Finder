@@ -1,8 +1,12 @@
-import React, { Component } from "react";
+import React from "react";
+import { connect } from "react-redux";
 //import '. Local .css';
 import Map from "./Map/Map";
 
 function Local(props) {
+  if (!props.lat && !props.lng) {
+    props.history.push("/dashboard");
+  }
   return (
     <Map
       isMarkerShown
@@ -12,10 +16,17 @@ function Local(props) {
       containerElement={<div style={{ height: `80vh` }} />}
       mapElement={<div style={{ height: `100%` }} />}
       loadingElement={<div style={{ height: `100%` }} />}
-      center={{ lat: prop.lat, lng: prop.lng }}
+      center={{ lat: props.lat, lng: props.lng }}
       zoom={15}
     />
   );
 }
 
-export default Local;
+const mapStateToProps = state => {
+  return {
+    ...state.authReducer,
+    ...state.locationReducer
+  };
+};
+
+export default connect(mapStateToProps)(Local);
